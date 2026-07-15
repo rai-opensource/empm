@@ -1,4 +1,4 @@
-from phys_sim.data_loaders import RealData, SimpleData
+from phys_sim.data_loaders import RealData
 from phys_sim.utils import logger, visualize_pc, cfg
 from phys_sim.diff_simulator import WarpMPMWrapper
 import open3d as o3d
@@ -11,8 +11,6 @@ from scipy.spatial import KDTree
 import pickle
 import cv2
 from pynput import keyboard
-import pyrender
-import trimesh
 import matplotlib.pyplot as plt
 import pyvista as pv
 from pytorch3d.loss import chamfer_distance
@@ -22,7 +20,6 @@ from gaussian_splatting.scene.cameras import Camera
 from gaussian_splatting.gaussian_renderer import render as render_gaussian
 from gaussian_splatting.dynamic_utils import (
     interpolate_motions_speedup,
-    knn_weights,
     knn_weights_sparse,
     get_topk_indices,
     calc_weights_vals_from_indices,
@@ -1797,34 +1794,6 @@ class InvPhyTrainerWarpMPM:
 
         listener.stop()
 
-    def _transform_gs(self, gaussians, M, majority_scale=1):
-
-        new_gaussians = copy.copy(gaussians)
-
-        new_xyz = gaussians.get_xyz.clone()
-        ones = torch.ones((new_xyz.shape[0], 1),
-                          device=new_xyz.device,
-                          dtype=new_xyz.dtype)
-        new_xyz = torch.cat((new_xyz, ones), dim=1)
-        print("inside:", new_xyz.max(), new_xyz.min())
-        new_xyz = new_xyz @ M.T
-        print("outside:", new_xyz.max(), new_xyz.min())
-
-        new_rotation = gaussians.get_rotation.clone()
-        new_rotation = quaternion_multiply(matrix_to_quaternion(M[:3, :3]),
-                                           new_rotation)
-
-        new_scales = gaussians._scaling.clone()
-        new_scales += torch.log(
-            torch.tensor(majority_scale,
-                         device=new_scales.device,
-                         dtype=new_scales.dtype))
-
-        new_gaussians._xyz = new_xyz[:, :3]
-        new_gaussians._rotation = new_rotation
-        new_gaussians._scaling = new_scales
-
-        return new_gaussians
 
     def _create_gs_view(self, w2c, intrinsic, height, width):
         R = np.transpose(w2c[:3, :3])
