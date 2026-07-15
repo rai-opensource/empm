@@ -1,0 +1,6 @@
+data_type: "real"
+FPS: 30
+object_radius: 0.02
+object_max_neighbours: 30
+controller_radius: 0.04
+controller_max_neighbours: 50

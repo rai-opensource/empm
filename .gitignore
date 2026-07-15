@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+build/
+dist/
+*.egg
+
+# Data and outputs
+data_custom/
+outputs/
+outcmaes/
+wandb/
+experiments*/
+gaussian_output*/
+results/
+
+# Binary / large files
+*.pkl
+*.npy
+*.npz
+*.ply
+*.png
+*.log
+*.zip
+
+# Allow specific assets
+!assets/*.png
+
+# Cloned repos
+Grounded-SAM-2/
+pytorch3d/
+
+# Model checkpoints
+data_pipeline/data_process/groundedSAM_checkpoints/
+
+# Misc
+scripts/test.py
+.env
+.venv
+archived/

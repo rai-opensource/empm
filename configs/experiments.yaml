@@ -1,0 +1,30 @@
+data_path: "./data_custom/ours"
+
+experiments:
+  - case_name: double_compress_playdoh_test
+    category: dough
+    shape_prior: false
+
+  - case_name: double_hand_rope_test
+    category: rope
+    shape_prior: true
+
+  - case_name: double_lift_cloth_test
+    category: cloth
+    shape_prior: false
+
+  - case_name: double_lift_sloth_test
+    category: sloth
+    shape_prior: true
+
+  - case_name: double_stretch_dough_test
+    category: dough
+    shape_prior: true
+
+  - case_name: double_tear_pita_test
+    category: bread
+    shape_prior: false
+
+  - case_name: single_poke_bluey_test
+    category: toy
+    shape_prior: true
