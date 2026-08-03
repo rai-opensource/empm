@@ -84,6 +84,10 @@ python3 scripts/viz/visualize_render_results.py
 python3 scripts/interactive_viser.py
 ```
 
+### Acknowledgments
+
+Parts of this codebase are adapted from [PhysTwin: Physics-Informed Reconstruction and Simulation of Deformable Objects from Videos](https://github.com/Jianghanxiao/PhysTwin). We thank the PhysTwin authors for releasing their code.
+
 ## Citation
 
 If you find this work helpful, please kindly cite our paper
