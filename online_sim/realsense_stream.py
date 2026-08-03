@@ -1,14 +1,11 @@
 import cv2
 import numpy as np
-import sys
 import os
 import time
 import tyro
 from typing import Optional
 from dataclasses import dataclass
 
-# sys.path.append("/home/yunuochen/Workspace/code/PET/mola_common_mini")
-sys.path.append("/home/yhu/ws/PET/mola_common_mini")
 from core.sensor.realsense.multi_realsense import MultiRealsense
 from core.perception.sam.predictor import SAM2ImageSegmenter
 from core.perception.cotracker.tracker import (

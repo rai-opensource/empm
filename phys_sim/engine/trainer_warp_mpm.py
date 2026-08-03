@@ -1948,7 +1948,7 @@ class InvPhyTrainerWarpMPM:
         n_ctrl_parts = self.n_ctrl_parts
         cmap = [1, 2]  # right - left
         # if self.ctrl_mode == "teleop":
-        #     with open(f"/home/yunuochen/Workspace/code/PET/ee_position.txt",
+        #     with open("ee_position.txt",
         #               "r") as f:  # load teleop result
         #         line = f.readline().split()
         #         ee_pos = [float(x) for x in line]

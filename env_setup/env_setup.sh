@@ -22,12 +22,12 @@ wget https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alp
 cd ../../..
 
 # gaussian splatting
-cd gaussian_splatting/submodules/diff-gaussian-rasterization/
+cd third_party/gaussian_splatting/submodules/diff-gaussian-rasterization/
 python setup.py build_ext --inplace
 pip install -e . --no-build-isolation
 cd ../simple-knn/
 pip install -e . --no-build-isolation
-cd ../../../
+cd ../../../../
 
 # pytorch3d
 git clone https://github.com/facebookresearch/pytorch3d.git
