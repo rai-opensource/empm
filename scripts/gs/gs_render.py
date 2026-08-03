@@ -14,15 +14,15 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 import torch
-from gaussian_splatting.scene import Scene
+from third_party.gaussian_splatting.scene import Scene
 from tqdm import tqdm
 from os import makedirs
-from gaussian_splatting.gaussian_renderer import render
+from third_party.gaussian_splatting.gaussian_renderer import render
 import torchvision
-from gaussian_splatting.utils.general_utils import safe_state
+from third_party.gaussian_splatting.utils.general_utils import safe_state
 from argparse import ArgumentParser
-from gaussian_splatting.arguments import ModelParams, PipelineParams, get_combined_args
-from gaussian_splatting.gaussian_renderer import GaussianModel
+from third_party.gaussian_splatting.arguments import ModelParams, PipelineParams, get_combined_args
+from third_party.gaussian_splatting.gaussian_renderer import GaussianModel
 try:
     from diff_gaussian_rasterization import SparseGaussianAdam
     SPARSE_ADAM_AVAILABLE = True
@@ -264,7 +264,7 @@ if __name__ == "__main__":
     else:
         experiments = config["experiments"]
 
-    from gaussian_splatting.img2video import images_to_video
+    from third_party.gaussian_splatting.img2video import images_to_video
     video_dir = f"{data_path}/gaussian_output_video"
 
     for exp in experiments:

@@ -15,16 +15,16 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 import torch
 from random import randint
-from gaussian_splatting.utils.loss_utils import l1_loss, ssim, depth_loss, normal_loss, anisotropic_loss
-from gaussian_splatting.gaussian_renderer import render, network_gui
+from third_party.gaussian_splatting.utils.loss_utils import l1_loss, ssim, depth_loss, normal_loss, anisotropic_loss
+from third_party.gaussian_splatting.gaussian_renderer import render, network_gui
 import sys
-from gaussian_splatting.scene import Scene, GaussianModel
-from gaussian_splatting.utils.general_utils import safe_state, get_expon_lr_func
+from third_party.gaussian_splatting.scene import Scene, GaussianModel
+from third_party.gaussian_splatting.utils.general_utils import safe_state, get_expon_lr_func
 import uuid
 from tqdm import tqdm
-from gaussian_splatting.utils.image_utils import psnr
+from third_party.gaussian_splatting.utils.image_utils import psnr
 from argparse import ArgumentParser, Namespace
-from gaussian_splatting.arguments import ModelParams, PipelineParams, OptimizationParams
+from third_party.gaussian_splatting.arguments import ModelParams, PipelineParams, OptimizationParams
 try:
     from torch.utils.tensorboard import SummaryWriter
     TENSORBOARD_FOUND = True

@@ -14,15 +14,15 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 import torch
-from gaussian_splatting.scene import Scene
+from third_party.gaussian_splatting.scene import Scene
 from tqdm import tqdm
 from os import makedirs
-from gaussian_splatting.gaussian_renderer import render
+from third_party.gaussian_splatting.gaussian_renderer import render
 import torchvision
-from gaussian_splatting.utils.general_utils import safe_state
+from third_party.gaussian_splatting.utils.general_utils import safe_state
 from argparse import ArgumentParser
-from gaussian_splatting.arguments import ModelParams, PipelineParams, get_combined_args
-from gaussian_splatting.gaussian_renderer import GaussianModel
+from third_party.gaussian_splatting.arguments import ModelParams, PipelineParams, get_combined_args
+from third_party.gaussian_splatting.gaussian_renderer import GaussianModel
 
 try:
     from diff_gaussian_rasterization import SparseGaussianAdam
@@ -39,7 +39,7 @@ from gs_render import (
     remove_gaussians_with_low_opacity,
     remove_gaussians_with_point_mesh_distance,
 )
-from gaussian_splatting.dynamic_utils import (
+from third_party.gaussian_splatting.dynamic_utils import (
     interpolate_motions,
     create_relation_matrix,
     knn_weights,
@@ -316,7 +316,7 @@ if __name__ == "__main__":
 
     extra_args = ["--white_background"] if use_white_bg else []
 
-    from gaussian_splatting.img2video import images_to_video
+    from third_party.gaussian_splatting.img2video import images_to_video
 
     for exp in experiments:
         scene = exp["case_name"]

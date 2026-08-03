@@ -84,13 +84,8 @@ python3 scripts/viz/visualize_render_results.py
 python3 scripts/interactive_viser.py
 ```
 
-### Online optimization with streaming
-We also provide the option of online optimization with live streaming, run
-```bash
-python3 online_sim/run_streaming.py
-```
+## Citation
 
-### Citation
 If you find this work helpful, please kindly cite our paper
 
 ```bibtex

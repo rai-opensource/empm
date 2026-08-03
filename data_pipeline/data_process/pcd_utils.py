@@ -147,8 +147,6 @@ def lift_pcd(base_path: str, case_name: str):
     intrinsics = np.array(data["intrinsics"])
     WH = data["WH"]
     frame_num = data["frame_num"]
-    print("serial_numbers of realsense cameras:", data["serial_numbers"])
-
     num_cam = len(intrinsics)
 
     c2ws = pickle.load(open(f"{base_path}/{case_name}/calibrate.pkl", "rb"))
@@ -509,14 +507,3 @@ def process_mask(base_path: str, case_name: str, controller_name: str):
             if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
                 line = sys.stdin.readline()
                 break
-
-
-if __name__ == "__main__":
-    # test pcd lifting
-
-    # test mask processing
-    process_mask(
-        base_path="./data_custom/ours/data/different_types",
-        case_name="single_poke_bluey_test",
-        controller_name="hand"
-    )

@@ -2,7 +2,7 @@
 pip3 install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cu128
 
 # basic dependencies
-pip3 install -r requirements.txt
+pip3 install -r env_setup/requirements.txt
 
 # grounded-sam-2
 git clone https://github.com/IDEA-Research/Grounded-SAM-2.git
