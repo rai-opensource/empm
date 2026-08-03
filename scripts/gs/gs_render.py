@@ -37,13 +37,9 @@ import pytorch3d.ops as ops
 
 
 def render_set(model_path, name, iteration, views, gaussians, pipeline, background, train_test_exp, separate_sh, disable_sh=False):
+    """Render a camera split and save rendered and ground-truth images."""
     render_path = os.path.join(model_path, name, "ours_{}".format(iteration), "renders")
     gts_path = os.path.join(model_path, name, "ours_{}".format(iteration), "gt")
-
-    # TODO: temporary debug for demo
-    # scene_name = model_path.split('/')[-2]
-    # render_path = os.path.join('./output_tmp_for_sydney', scene_name, "renders")
-    # gts_path = os.path.join('./output_tmp_for_sydney', scene_name, "gt")
 
     makedirs(render_path, exist_ok=True)
     makedirs(gts_path, exist_ok=True)
@@ -67,6 +63,7 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
 
 
 def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParams, skip_train : bool, skip_test : bool, separate_sh: bool, remove_gaussians: bool = False):
+    """Load a trained scene and render its requested train and test splits."""
     with torch.no_grad():
         gaussians = GaussianModel(dataset.sh_degree)
         scene = Scene(dataset, gaussians, load_iteration=iteration, shuffle=False)

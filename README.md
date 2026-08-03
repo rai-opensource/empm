@@ -84,9 +84,19 @@ python3 scripts/viz/visualize_render_results.py
 python3 scripts/interactive_viser.py
 ```
 
-### Acknowledgments
+## Maintenance
 
-Parts of this codebase are adapted from [PhysTwin: Physics-Informed Reconstruction and Simulation of Deformable Objects from Videos](https://github.com/Jianghanxiao/PhysTwin). We thank the PhysTwin authors for releasing their code.
+This repository is released as-is with no maintenance commitment or support
+guarantee. Users should expect to diagnose issues themselves and fork the
+repository for continued development or project-specific changes.
+
+## License
+
+Code authored by the Robotics and AI Institute is licensed under the [MIT License](LICENSE).
+`third_party/gaussian_splatting/` and the Inria-derived files under `scripts/gs/`
+are governed by the Inria Gaussian-Splatting License, which restricts use to
+non-commercial research and evaluation. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+for the applicable paths, license locations, and additional notices.
 
 ## Citation
 
@@ -100,3 +110,7 @@ If you find this work helpful, please kindly cite our paper
     booktitle={IEEE Robotics and Automation Letters (RA-L)}
 }
 ```
+
+## Acknowledgments
+
+Parts of this codebase are adapted from [PhysTwin: Physics-Informed Reconstruction and Simulation of Deformable Objects from Videos](https://github.com/Jianghanxiao/PhysTwin). We thank the PhysTwin authors for releasing their code.
