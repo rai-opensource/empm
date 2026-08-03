@@ -4,9 +4,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 import glob
 import yaml
+import shutil
+from pathlib import Path
 from data_pipeline.data_process.segment_utils import segment_video
 
-with open("configs/example_experiments.yaml", "r") as f:
+with open("configs/experiments.yaml", "r") as f:
     _config = yaml.safe_load(f)
     DATA_PATH = _config["data_path"]
 
@@ -25,6 +27,5 @@ for exp in _config["experiments"]:
     for camera_idx in range(camera_num):
         print(f"  Camera {camera_idx}")
         segment_video(base_path, case_name, TEXT_PROMPT, camera_idx, f"{output_path}/{case_name}")
-        tmp_dir = f"{base_path}/{case_name}/tmp_data"
-        if os.path.exists(tmp_dir):
-            os.system(f"rm -rf {tmp_dir}")
+        tmp_dir = Path(base_path) / case_name / "tmp_data"
+        shutil.rmtree(tmp_dir, ignore_errors=True)

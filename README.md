@@ -87,7 +87,7 @@ python3 scripts/interactive_viser.py
 ### Online optimization with streaming
 We also provide the option of online optimization with live streaming, run
 ```bash
-python3 real_sim/run_streaming.py
+python3 online_sim/run_streaming.py
 ```
 
 ### Citation

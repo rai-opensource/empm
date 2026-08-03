@@ -15,25 +15,23 @@ import matplotlib.pyplot as plt
 import pyvista as pv
 from pytorch3d.loss import chamfer_distance
 
-from gaussian_splatting.scene.gaussian_model import GaussianModel
-from gaussian_splatting.scene.cameras import Camera
-from gaussian_splatting.gaussian_renderer import render as render_gaussian
-from gaussian_splatting.dynamic_utils import (
+from third_party.gaussian_splatting.scene.gaussian_model import GaussianModel
+from third_party.gaussian_splatting.scene.cameras import Camera
+from third_party.gaussian_splatting.gaussian_renderer import render as render_gaussian
+from third_party.gaussian_splatting.dynamic_utils import (
     interpolate_motions_speedup,
     knn_weights_sparse,
     get_topk_indices,
     calc_weights_vals_from_indices,
 )
-from gaussian_splatting.utils.graphics_utils import getWorld2View2, focal2fov, fov2focal
-# 2025-12, YH, add gs_render import
+from third_party.gaussian_splatting.utils.graphics_utils import getWorld2View2, focal2fov, fov2focal
 import sys
 sys.path.append("./scripts/gs")
-# 2025-12, YH, add gs_render import
 from gs_render import (
     remove_gaussians_with_low_opacity,
     remove_gaussians_with_point_mesh_distance,
 )
-from gaussian_splatting.rotation_utils import quaternion_multiply, matrix_to_quaternion
+from third_party.gaussian_splatting.rotation_utils import quaternion_multiply, matrix_to_quaternion
 
 from sklearn.cluster import KMeans
 import copy
@@ -51,11 +49,11 @@ with open("configs/experiments.yaml", "r") as f:
     config = yaml.safe_load(f)
     DATASET = config["data_path"].split("/")[-1]
 
-# 2025-09, YH, add viser visualization
 import viser
 import viser.transforms as tf
 
 viser_server = viser.ViserServer()
+DOUGH_COLLIDER_HEIGHT = 0.505
 
 
 class InvPhyTrainerWarpMPM:
@@ -188,10 +186,6 @@ class InvPhyTrainerWarpMPM:
                       ],  # controller size (default: 0.015)
             "ctrl_mask": ctrl_mask
         }
-        if False:  # Deubugging
-            for i in range(self.ctrl_points.shape[1]):
-                print(i, self.ctrl_points[0, i], ctrl_mask[i])
-
         save_ply_seq(self.ctrl_points[:], f"{self.vis_path}/sim", "ctrl_")
         save_ply_seq(self.obj_points, f"{self.vis_path}/sim", "obj_")
 
@@ -528,15 +522,14 @@ class InvPhyTrainerWarpMPM:
         save_ply_seq(vertices[:], f"{self.vis_path}/sim", "test_")
         vertices = inv_transform_points(x=vertices, name=self.exp_name)
 
-        if True:
-            visualize_pc(
-                vertices[:, :self.num_original_points, :],
-                self.object_colors,
-                self.controller_points,
-                visualize=False,
-                save_video=True,
-                save_path=video_path,
-            )
+        visualize_pc(
+            vertices[:, :self.num_original_points, :],
+            self.object_colors,
+            self.controller_points,
+            visualize=False,
+            save_video=True,
+            save_path=video_path,
+        )
 
         if track_path is not None:
             logger.info(f"Save the trajectory to {track_path}")
@@ -544,33 +537,32 @@ class InvPhyTrainerWarpMPM:
             with open(track_path, "wb") as f:
                 pickle.dump(vertices_to_save, f)
 
-        if True:  # print loss in forward sim
-            vertices = vertices[:, :self.num_original_points]
+        vertices = vertices[:, :self.num_original_points]
 
-            total_loss_chamfer = 0.0
-            for t in range(self.object_points.shape[0]):
-                # Chamfer loss for visible points
-                vis_mask = self.object_visibilities[t]
-                pts_pred_vis = vertices[t][vis_mask].unsqueeze(0)
-                pts_target_vis = self.object_points[t][vis_mask].unsqueeze(0)
-                loss_chamfer, _ = chamfer_distance(pts_pred_vis,
-                                                   pts_target_vis)
-                total_loss_chamfer += loss_chamfer
+        total_loss_chamfer = 0.0
+        for t in range(self.object_points.shape[0]):
+            # Chamfer loss for visible points
+            vis_mask = self.object_visibilities[t]
+            pts_pred_vis = vertices[t][vis_mask].unsqueeze(0)
+            pts_target_vis = self.object_points[t][vis_mask].unsqueeze(0)
+            loss_chamfer, _ = chamfer_distance(pts_pred_vis, pts_target_vis)
+            total_loss_chamfer += loss_chamfer
 
-            total_loss_tracking = 0.0
-            for t in range(self.object_points.shape[0]):
-                # Tracking loss for valid motion points
-                valid_mask = self.object_motions_valid[t]
-                pts_pred_valid = vertices[t][valid_mask]
-                pts_target_valid = self.object_points[t][valid_mask]
-                if pts_pred_valid.shape[0] > 0:
-                    loss_tracking = (pts_pred_valid - pts_target_valid
-                                     ).norm() / pts_pred_valid.shape[0]
-                    total_loss_tracking += loss_tracking
+        total_loss_tracking = 0.0
+        for t in range(self.object_points.shape[0]):
+            # Tracking loss for valid motion points
+            valid_mask = self.object_motions_valid[t]
+            pts_pred_valid = vertices[t][valid_mask]
+            pts_target_valid = self.object_points[t][valid_mask]
+            if pts_pred_valid.shape[0] > 0:
+                loss_tracking = (
+                    pts_pred_valid - pts_target_valid
+                ).norm() / pts_pred_valid.shape[0]
+                total_loss_tracking += loss_tracking
 
-            print(
-                f"[Inference Time]:\n Chamfer loss: {total_loss_chamfer * 1e3:.4f} \n Tracking loss: {total_loss_tracking * 1e3:.4f}"
-            )
+        print(
+            f"[Inference Time]:\n Chamfer loss: {total_loss_chamfer * 1e3:.4f} \n Tracking loss: {total_loss_tracking * 1e3:.4f}"
+        )
 
     def train_cma(self, max_iter=20):
         """
@@ -1723,8 +1715,7 @@ class InvPhyTrainerWarpMPM:
             ###############################################
 
             ############### Temporary timer ###############
-            # 2025-09, YH, add viser visualization
-            from gaussian_splatting.utils.sh_utils import SH2RGB
+            from third_party.gaussian_splatting.utils.sh_utils import SH2RGB
 
             # Total loop time
             total_time = total_timer.stop()
@@ -1769,7 +1760,6 @@ class InvPhyTrainerWarpMPM:
                         f"{key.capitalize()}: {avg_time*1000:.2f} ms ({percentage:.1f}%)"
                     )
 
-            # 2025-09, YH, update the gaussians and pcd here
             features_dc_rgb = gaussians._features_dc.squeeze(1)
             gaussian_colors = SH2RGB(features_dc_rgb).clamp(
                 0, 1).detach().cpu().numpy()
@@ -1908,7 +1898,9 @@ class InvPhyTrainerWarpMPM:
             self.total_opt_steps = 0
 
         if self.obj_name == "dough":
-            mpm.mpm_solver.collider_params[0].point = wp.vec3(0, 0, 0.505)
+            mpm.mpm_solver.collider_params[0].point = wp.vec3(
+                0, 0, DOUGH_COLLIDER_HEIGHT
+            )
 
         self.mpm = mpm
         self.prev_hand_pos = None

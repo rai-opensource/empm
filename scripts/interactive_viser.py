@@ -29,10 +29,10 @@ from phys_sim.utils import logger, cfg
 from phys_sim.engine.utils import (
     get_param, inv_transform_points, transform_points,
 )
-from gaussian_splatting.scene.gaussian_model import GaussianModel
-from gaussian_splatting.utils.sh_utils import SH2RGB
+from third_party.gaussian_splatting.scene.gaussian_model import GaussianModel
+from third_party.gaussian_splatting.utils.sh_utils import SH2RGB
 from gs_render import remove_gaussians_with_low_opacity
-from gaussian_splatting.dynamic_utils import (
+from third_party.gaussian_splatting.dynamic_utils import (
     interpolate_motions_speedup,
     knn_weights_sparse,
     get_topk_indices,
@@ -93,7 +93,7 @@ def get_gs_colors(gaussians):
 @dataclass
 class Config:
     load_gaussians: bool = True
-    seq_config_path: str = "configs/example_experiments.yaml"
+    seq_config_path: str = "configs/experiments.yaml"
 
 
 if __name__ == "__main__":

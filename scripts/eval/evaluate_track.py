@@ -7,7 +7,7 @@ import numpy as np
 from scipy.spatial import KDTree
 from argparse import ArgumentParser
 
-with open("configs/example_experiments.yaml", "r") as f:
+with open("configs/experiments.yaml", "r") as f:
     _config = yaml.safe_load(f)
     DATA_PATH = _config["data_path"]
 

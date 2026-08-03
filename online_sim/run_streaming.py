@@ -1,5 +1,5 @@
 """
-    python real_sim/process_data_online.py --base_path="./data_custom/data/different_types" --case_name="static_sloth_test" --category "sloth" --shape_prior
+    python online_sim/run_streaming.py --base_path="./data_custom/data/different_types" --case_name="static_sloth_test" --category "sloth" --shape_prior
 """
 import os
 from argparse import ArgumentParser

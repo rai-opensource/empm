@@ -280,7 +280,7 @@ if __name__ == "__main__":
     REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
     import yaml
-    with open(os.path.join(REPO_ROOT, "configs/example_experiments.yaml"), "r") as f:
+    with open(os.path.join(REPO_ROOT, "configs/experiments.yaml"), "r") as f:
         config = yaml.safe_load(f)
     data_path = os.path.join(REPO_ROOT, config["data_path"])
     exp_name = "init=hybrid_iso=True_ldepth=0.001_lnormal=0.0_laniso_0.0_lseg=1.0"
@@ -341,4 +341,3 @@ if __name__ == "__main__":
                 images_to_video(img_folder, f"{dyn_output_dir}/{scene}/{view}.mp4")
 
         print(f"Dynamic rendering complete for {scene}.")
-

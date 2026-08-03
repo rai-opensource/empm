@@ -202,7 +202,6 @@ class MPMDifferentiableSimulationTrail(autograd.Function):
         else:
             velo_grad = wp.to_torch(mpm_state.particle_v.grad).detach().clone()
 
-        # print("debug back", velo_grad)
 
         # grad for E, nu. TODO: add spatially varying E, nu later
         if ctx.aggregating_E:
@@ -424,7 +423,6 @@ class MPMDifferentiableSimulation(autograd.Function):
         else:
             velo_grad = wp.to_torch(mpm_state.particle_v.grad).detach().clone()
 
-        # print("debug back", velo_grad)
 
         # grad for E, nu. TODO: add spatially varying E, nu later
         if ctx.aggregating_E:
@@ -726,7 +724,6 @@ class MPMDifferentiableSimulationWCheckpoint(autograd.Function):
         velo_grad = wp.to_torch(starting_state.particle_v.grad).detach().clone()
         F_grad = wp.to_torch(starting_state.particle_F_trial.grad).detach().clone()
         C_grad = wp.to_torch(starting_state.particle_C.grad).detach().clone()
-        # print("debug back", velo_grad)
 
         # grad for E, nu. TODO: add spatially varying E, nu later
         if ctx.aggregating_E:
@@ -942,7 +939,6 @@ class MPMDifferentiableSimulationClean(autograd.Function):
         velo_grad = wp.to_torch(starting_state.particle_v.grad).detach().clone()
         F_grad = wp.to_torch(starting_state.particle_F_trial.grad).detach().clone()
         C_grad = wp.to_torch(starting_state.particle_C.grad).detach().clone()
-        # print("debug back", velo_grad)
 
         # grad for E, nu. TODO: add spatially varying E, nu later
         if ctx.aggregating_E:

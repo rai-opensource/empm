@@ -3,9 +3,9 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from PIL import Image
-from gaussian_splatting.utils.loss_utils import ssim
-from gaussian_splatting.lpipsPyTorch import lpips
-from gaussian_splatting.utils.image_utils import psnr
+from third_party.gaussian_splatting.utils.loss_utils import ssim
+from third_party.gaussian_splatting.lpipsPyTorch import lpips
+from third_party.gaussian_splatting.utils.image_utils import psnr
 import json
 from tqdm import tqdm
 import torch
@@ -28,7 +28,7 @@ def compute_iou(mask1, mask2):
 
 if __name__ == "__main__":
     import yaml
-    with open("configs/example_experiments.yaml", "r") as f:
+    with open("configs/experiments.yaml", "r") as f:
         _config = yaml.safe_load(f)
     DATA_PATH = _config["data_path"]
     render_path = f"{DATA_PATH}/data/render_eval_data"

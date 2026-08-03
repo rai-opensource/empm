@@ -55,7 +55,7 @@ if __name__ == "__main__":
     seed = 42
     set_all_seeds(seed)
 
-    exp_config = "configs/example_experiments.yaml"
+    exp_config = "configs/experiments.yaml"
     config = load_config(exp_config)
     base_path = config["base_path"]
     output_path = config["output_path"]

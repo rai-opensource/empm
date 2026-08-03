@@ -6,7 +6,6 @@ import glob
 import pickle
 import matplotlib.pyplot as plt
 
-# 2025-08, YH, added viser visualization, nicer
 vis_tool = "viser" # "o3d"
 if vis_tool == "viser":
     import viser
@@ -39,7 +38,6 @@ def filter_track(track_path, pcd_path, mask_path, frame_num, num_cam):
     controller_colors = []
     controller_visibilities = []
 
-    # 2025-09, YH, get H and W from the pcd path
     data = np.load(f"{pcd_path}/0.npz")
     H = data["points"].shape[1]
     W = data["points"].shape[2]
@@ -50,7 +48,6 @@ def filter_track(track_path, pcd_path, mask_path, frame_num, num_cam):
         tracks = current_track_data["tracks"]
         tracks = np.round(tracks).astype(int)
 
-        # 2025-09, YH, clip coordinates to valid image bounds to prevent IndexError
         tracks[:, :, 0] = np.clip(tracks[:, :, 0], 0, 479)  # height (rows)
         tracks[:, :, 1] = np.clip(tracks[:, :, 1], 0, 639)  # width (cols)
         
@@ -157,7 +154,6 @@ def filter_motion(track_data, neighbor_dist=0.01):
     num_frames = object_points.shape[0]
     num_points = object_points.shape[1]
 
-    # 2025-08, YH, viz tool setup
     if vis_tool == "o3d":
         vis = o3d.visualization.Visualizer()
         vis.create_window()
@@ -475,7 +471,6 @@ def visualize_track(track_data):
                 vis.poll_events()
                 vis.update_renderer()
 
-        # 2025-09, YH, viz final filtered tracked pcd and mesh
         if vis_tool == "viser":
             viser_server.scene.add_point_cloud(
                 name="/world/final_object_pcd",
@@ -522,7 +517,6 @@ def filter_track_data(base_path: str, case_name: str):
 
     visualize_track(track_data)
 
-    # 2025-08, YH, put a while lool and press enter to exit and continue to other processing
     if vis_tool == "viser":
         print("Press Enter to exit and continue...")
         while True:

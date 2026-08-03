@@ -5,6 +5,8 @@ import numpy as np
 import open3d as o3d
 import yaml
 import sys
+import shutil
+from pathlib import Path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from data_pipeline.data_process.segment_utils import segment_image
 
@@ -34,8 +36,9 @@ if __name__ == "__main__":
         os.makedirs(f"{output_path}/{case_name}", exist_ok=True)
         for i in range(num_cams):
             # Copy the original RGB image
-            os.system(
-                f"cp {base_path}/{case_name}/color/{i}/0.png {output_path}/{case_name}/{i}.png"
+            shutil.copy2(
+                Path(base_path) / case_name / "color" / str(i) / "0.png",
+                Path(output_path) / case_name / f"{i}.png",
             )
 
             # Copy the original mask image
@@ -49,15 +52,18 @@ if __name__ == "__main__":
                         raise ValueError("More than one object detected.")
                     obj_idx = int(key)
             mask_path = f"{base_path}/{case_name}/mask/{i}/{obj_idx}/0.png"
-            os.system(f"cp {mask_path} {output_path}/{case_name}/mask_{i}.png")
+            shutil.copy2(
+                mask_path, Path(output_path) / case_name / f"mask_{i}.png"
+            )
 
             segment_image(img_path=f"{output_path}/{case_name}/{i}.png", 
                         text_prompt=category,
                         output_path=f"{output_path}/{case_name}/mask_{i}.png")
 
             # Copy the original depth image
-            os.system(
-                f"cp {base_path}/{case_name}/depth/{i}/0.npy {output_path}/{case_name}/{i}_depth.npy"
+            shutil.copy2(
+                Path(base_path) / case_name / "depth" / str(i) / "0.npy",
+                Path(output_path) / case_name / f"{i}_depth.npy",
             )
 
             # prepare the human mask

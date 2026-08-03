@@ -3,6 +3,8 @@ import pyvista as pv
 import pickle
 import numpy as np
 
+PGND_FRAME_COUNT = 27
+
 
 def run():
 
@@ -13,8 +15,7 @@ def run():
         print(data.shape)
 
     points = []
-    for i in range(27):
-        # print(i)
+    for i in range(PGND_FRAME_COUNT):
         point = torch.load(f"pgnd_dough/{i:04d}.pt")
         point = point["x"].cpu().numpy()
         point = point[:, [0, 2, 1]]
@@ -25,7 +26,6 @@ def run():
         points.append(point)
         points.append(point)
         points.append(point)
-        # points.append(point)
 
     for _ in range(20):
         points.append(points[-1])
@@ -40,7 +40,6 @@ def run():
     point_cloud = pv.PolyData(data[0])
     point_cloud.save(f"episode_0000/data.ply", binary=False)
 
-    #
     print(points.shape)  # (T, N, 3)
 
     with open(

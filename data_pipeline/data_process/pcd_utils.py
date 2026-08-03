@@ -8,7 +8,6 @@ import os
 import glob
 
 
-# 2025-08, YH, added viser visualization, nicer
 vis_tool = "viser" # "o3d"
 
 
@@ -152,7 +151,6 @@ def lift_pcd(base_path: str, case_name: str):
 
     num_cam = len(intrinsics)
 
-    # 2025-08, YH, c2w denotes cam frame seen in world frame, hence T_wc
     c2ws = pickle.load(open(f"{base_path}/{case_name}/calibrate.pkl", "rb"))
 
     # get the height and width of the images
@@ -252,7 +250,6 @@ def lift_pcd(base_path: str, case_name: str):
                 vis.poll_events()
                 vis.update_renderer()
         
-        # 2025-08, YH, update the point cloud in viser
         if vis_tool == "viser": 
             viser_server.scene.add_point_cloud(
                 name="/world/point_cloud",
@@ -270,7 +267,6 @@ def lift_pcd(base_path: str, case_name: str):
             masks=masks,
         )
 
-    # 2025-08, YH, put a while lool and press enter to exit and continue to other processing
     if vis_tool == "viser":
         print("Press Enter to exit and continue...")
         while True:
@@ -421,9 +417,9 @@ def process_mask(base_path: str, case_name: str, controller_name: str):
         for key, value in data.items():
             if value != controller_name:
                 if "object" in mask_info[i]:
-                    # TODO: Handle the case when there are multiple objects
-                    import pdb
-                    pdb.set_trace()
+                    raise ValueError(
+                        f"Multiple objects found in mask metadata for camera {i}"
+                    )
                 mask_info[i]["object"] = int(key)
             if value == controller_name:
                 if "controller" in mask_info[i]:
@@ -431,7 +427,6 @@ def process_mask(base_path: str, case_name: str, controller_name: str):
                 else:
                     mask_info[i]["controller"] = [int(key)]
 
-    # 2025-08, YH, added viser visualization, nicer
     if vis_tool == "viser":
         import viser
         import viser.transforms as tf
@@ -484,7 +479,6 @@ def process_mask(base_path: str, case_name: str, controller_name: str):
                 vis.poll_events()
                 vis.update_renderer()
         
-        # 2025-08, YH, update the point cloud in viser
         if vis_tool == "viser": 
             viser_server.scene.add_point_cloud(
                 name="/world/object_pcd",
@@ -507,7 +501,6 @@ def process_mask(base_path: str, case_name: str, controller_name: str):
     with open(f"{base_path}/{case_name}/mask/processed_masks.pkl", "wb") as f:
         pickle.dump(processed_masks, f)
     
-    # 2025-08, YH, put a while lool and press enter to exit and continue to other processing
     if vis_tool == "viser":
         print("Press Enter to exit and continue...")
         while True:

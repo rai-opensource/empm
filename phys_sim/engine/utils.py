@@ -8,6 +8,8 @@ with open("configs/experiments.yaml", "r") as f:
     DATASET = config["data_path"].split("/")[-1]
 
 cscale = 1.0  # 2.5 for bluey and online exps
+SLOTH_CROP_CENTER = 0.505
+SLOTH_CROP_TRANSITION = 0.005
 
 
 def linear_crop(x, xbar, theta):
@@ -26,9 +28,9 @@ def transform_points(x, name=""):
     if DATASET == "ours":  # custom data
         xx = (torch.tensor([.5, .5, .5], device=x.device) + x / 5. * cscale)
         if "sloth" in name:
-            xx = linear_crop(xx, xbar=0.505, theta=0.005)
-        # elif "bluey" in name:
-        #     xx = linear_crop(xx, xbar=0.5, theta=0.01)
+            xx = linear_crop(
+                xx, xbar=SLOTH_CROP_CENTER, theta=SLOTH_CROP_TRANSITION
+            )
         return xx
     elif DATASET == "phystwin":  # phystwin data
         return (torch.tensor([.5, .5, .5], device=x.device) - x / 5.)
@@ -37,7 +39,6 @@ def transform_points(x, name=""):
 
 
 def inv_transform_points(x, name=""):
-    # if "test" in name:
     if DATASET == "ours":  # custom data
         return (-torch.tensor([.5, .5, .5], device=x.device) + x) * 5. / cscale
     elif DATASET == "phystwin":  # phystwin data

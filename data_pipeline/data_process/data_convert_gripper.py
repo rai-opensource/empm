@@ -19,7 +19,6 @@ parser.add_argument(
 parser.add_argument("--case_name", type=str, required=True)
 args = parser.parse_args()
 
-# 2025-08, YH, added viser visualization, nicer
 vis_tool = "viser" # "o3d"
 if vis_tool == "viser":
     import viser
@@ -171,7 +170,6 @@ def filter_motion(track_data, neighbor_dist=0.01):
     num_frames = object_points.shape[0]
     num_points = object_points.shape[1]
 
-    # 2025-08, YH, viz tool setup
     if vis_tool == "o3d":
         vis = o3d.visualization.Visualizer()
         vis.create_window()
@@ -489,7 +487,6 @@ def visualize_track(track_data):
                 vis.poll_events()
                 vis.update_renderer()
         
-        # 2025-09, YH, viz final filtered tracked pcd and mesh
         if vis_tool == "viser":
             viser_server.scene.add_point_cloud(
                 name="/world/final_object_pcd",
@@ -768,7 +765,6 @@ if __name__ == "__main__":
 
     visualize_track(track_data)
 
-    # 2025-08, YH, put a while lool and press enter to exit and continue to other processing
     if vis_tool == "viser":
         print("Press Enter to exit and continue...")
         while True:

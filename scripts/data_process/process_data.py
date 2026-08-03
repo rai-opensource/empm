@@ -4,6 +4,8 @@ import time
 import json
 import glob
 import yaml
+import shutil
+from pathlib import Path
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from data_pipeline.data_process.segment_utils import segment_video, segment_image
@@ -49,7 +51,7 @@ def process_data(base_path: str, case_name: str, category: str, shape_prior: boo
             for camera_idx in range(n_cam):
                 print(f"Processing {case_name} camera {camera_idx}")
                 segment_video(base_path, case_name, text_prompt, camera_idx, None)
-                os.system(f"rm -rf {base_path}/{case_name}/tmp_data")
+                shutil.rmtree(Path(base_path) / case_name / "tmp_data", ignore_errors=True)
 
 
     # get the dense 2d tracking of the object using Co-tracker 3 for rgb videos
@@ -93,7 +95,7 @@ if __name__ == "__main__":
         config = yaml.safe_load(f)
     base_path = f"{config['data_path']}/data/different_types"
 
-    os.system("rm -f timer.log")
+    Path("timer.log").unlink(missing_ok=True)
 
     for exp in config["experiments"]:
         case_name = exp["case_name"]

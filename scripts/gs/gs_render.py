@@ -78,20 +78,6 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         # remove gaussians that are low opacity
         gaussians = remove_gaussians_with_low_opacity(gaussians)
 
-        # TODO: quick demo purpose (remove later)
-        # # sub-sample the gaussians
-        # n_subsample = 1000
-        # idx = torch.randperm(gaussians._xyz.size(0))[:n_subsample]
-        # gaussians._xyz = gaussians._xyz[idx]
-        # gaussians._features_dc = gaussians._features_dc[idx]
-        # gaussians._features_rest = gaussians._features_rest[idx]
-        # gaussians._scaling = gaussians._scaling[idx]
-        # gaussians._rotation = gaussians._rotation[idx]
-        # gaussians._opacity = gaussians._opacity[idx]
-        # # set the scale of the gaussians
-        # scale = 0.01
-        # gaussians._scaling = gaussians.scaling_inverse_activation(torch.ones_like(gaussians._scaling) * scale)
-
         # remove gaussians that are far from the mesh
         # gaussians = remove_gaussians_with_point_mesh_distance(gaussians, scene.mesh_sampled_points, dist_threshold=0.01)
 
@@ -244,7 +230,7 @@ if __name__ == "__main__":
     REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
     import yaml
-    with open(os.path.join(REPO_ROOT, "configs/example_experiments.yaml"), "r") as f:
+    with open(os.path.join(REPO_ROOT, "configs/experiments.yaml"), "r") as f:
         config = yaml.safe_load(f)
     data_path = os.path.join(REPO_ROOT, config["data_path"])
     input_dir = f"{data_path}/data/gaussian_data"

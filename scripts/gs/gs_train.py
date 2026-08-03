@@ -129,19 +129,6 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         image = image[:3, ...]
         gt_image = viewpoint_cam.original_image.cuda()
 
-        # if viewpoint_cam.image_name == "cam0":
-        if False:
-            import matplotlib.pyplot as plt
-            # img = pred_seg[0].clone().detach()
-            # img = alpha_mask[0].clone().detach()
-            # img = depth.clone().detach()
-            # plt.imshow(img.cpu().numpy())
-            img = image.clone().detach()
-            # img = gt_image.clone()
-            plt.imshow(img.permute(1, 2, 0).cpu().numpy())
-            plt.savefig("outputs/image.png")
-            plt.close()
-
         # Mask out occluded regions
         if viewpoint_cam.occ_mask is not None:
 
@@ -305,7 +292,7 @@ if __name__ == "__main__":
     REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
     import yaml
-    with open(os.path.join(REPO_ROOT, "configs/example_experiments.yaml"), "r") as f:
+    with open(os.path.join(REPO_ROOT, "configs/experiments.yaml"), "r") as f:
         config = yaml.safe_load(f)
     data_path = os.path.join(REPO_ROOT, config["data_path"])
     input_dir = f"{data_path}/data/gaussian_data"

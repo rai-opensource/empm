@@ -1,8 +1,10 @@
 import os
 import json
 import yaml
+import shutil
+from pathlib import Path
 
-with open("configs/example_experiments.yaml", "r") as f:
+with open("configs/experiments.yaml", "r") as f:
     _config = yaml.safe_load(f)
     DATA_PATH = _config["data_path"]
 
@@ -25,8 +27,10 @@ for exp in _config["experiments"]:
     os.makedirs(f"{output_path}/{case_name}/mask", exist_ok=True)
     for i in range(3):
         # Copy the original RGB image
-        os.system(
-            f"cp -r {base_path}/{case_name}/color {output_path}/{case_name}/"
+        shutil.copytree(
+            Path(base_path) / case_name / "color",
+            Path(output_path) / case_name / "color",
+            dirs_exist_ok=True,
         )
         # Copy only the object mask image
         # Get the mask path for the image
@@ -39,7 +43,17 @@ for exp in _config["experiments"]:
                     raise ValueError("More than one object detected.")
                 obj_idx = int(key)
         os.makedirs(f"{output_path}/{case_name}/mask/{i}", exist_ok=True)
-        os.system(f"cp -r {base_path}/{case_name}/mask/{i}/{obj_idx}/* {output_path}/{case_name}/mask/{i}/")
+        source_mask_dir = Path(base_path) / case_name / "mask" / str(i) / str(obj_idx)
+        destination_mask_dir = Path(output_path) / case_name / "mask" / str(i)
+        for source in source_mask_dir.iterdir():
+            destination = destination_mask_dir / source.name
+            if source.is_dir():
+                shutil.copytree(source, destination, dirs_exist_ok=True)
+            else:
+                shutil.copy2(source, destination)
     
     # Copy the split.json
-    os.system(f"cp {base_path}/{case_name}/split.json {output_path}/{case_name}/")
+    shutil.copy2(
+        Path(base_path) / case_name / "split.json",
+        Path(output_path) / case_name / "split.json",
+    )

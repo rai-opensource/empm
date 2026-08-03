@@ -1,6 +1,0 @@
-data_path: "./data_custom/ours"
-
-experiments:
-  - case_name: double_stretch_dough_test
-    category: dough
-    shape_prior: true
