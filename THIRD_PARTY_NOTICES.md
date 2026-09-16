@@ -1,7 +1,7 @@
 # Third-Party Notices
 
-This repository contains software that is not covered by the root MIT License.
-The root MIT License applies only to code authored by the Robotics and AI
+This repository contains software that is not covered by the root RAI Institute Research License.
+The root License applies only to code authored by the Robotics and AI
 Institute. Each component listed below remains subject to its own license and
 copyright notices.
 
@@ -16,7 +16,7 @@ Gaussian-Splatting software:
 - `scripts/gs/gs_render_dynamics.py`
 
 These files are governed by the Gaussian-Splatting License at
-`third_party/gaussian_splatting/LICENSE.md`, not by the root MIT License. The
+`third_party/gaussian_splatting/LICENSE.md`, not by the root License. The
 license permits non-commercial research and evaluation use and prohibits
 commercial use without the licensors' prior explicit consent. Retain the
 license and all copyright and attribution notices when redistributing covered

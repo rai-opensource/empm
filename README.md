@@ -92,7 +92,7 @@ repository for continued development or project-specific changes.
 
 ## License
 
-Code authored by the Robotics and AI Institute is licensed under the [MIT License](LICENSE).
+Code authored by the Robotics and AI Institute is licensed under the [RAI Institute Research License](LICENSE.md).
 `third_party/gaussian_splatting/` and the Inria-derived files under `scripts/gs/`
 are governed by the Inria Gaussian-Splatting License, which restricts use to
 non-commercial research and evaluation. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
