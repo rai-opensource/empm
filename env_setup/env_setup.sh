@@ -26,7 +26,7 @@ cd third_party/gaussian_splatting/submodules/diff-gaussian-rasterization/
 python setup.py build_ext --inplace
 pip install -e . --no-build-isolation
 cd ../simple-knn/
-pip install -e . --no-build-isolation
+python3 -m pip install -e . --no-build-isolation
 cd ../../../../
 
 # pytorch3d

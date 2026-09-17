@@ -227,14 +227,11 @@ if __name__ == "__main__":
     REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
     import yaml
-    with open(os.path.join(REPO_ROOT, "configs/experiments.yaml"), "r") as f:
-        config = yaml.safe_load(f)
-    data_path = os.path.join(REPO_ROOT, config["data_path"])
-    input_dir = f"{data_path}/data/gaussian_data"
-    output_dir = f"{data_path}/gaussian_output"
     exp_name = "init=hybrid_iso=True_ldepth=0.001_lnormal=0.0_laniso_0.0_lseg=1.0"
 
     parser = ArgumentParser(description="Testing script parameters")
+    parser.add_argument("--exp_config", "--exp-config", default="configs/experiments.yaml",
+                        help="Path to the experiments YAML file.")
     model = ModelParams(parser, sentinel=True)
     pipeline = PipelineParams(parser)
     parser.add_argument("--iteration", default=-1, type=int)
@@ -243,7 +240,14 @@ if __name__ == "__main__":
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--remove_gaussians", action="store_true")
     parser.add_argument("--scene", type=str, default=None,
-                        help="Run a single scene by name (default: all from experiments.yaml)")
+                        help="Run a single scene by name (default: all from the selected config)")
+
+    cli_args = parser.parse_args()
+    with open(os.path.join(REPO_ROOT, cli_args.exp_config), "r") as f:
+        config = yaml.safe_load(f)
+    data_path = os.path.join(REPO_ROOT, config["data_path"])
+    input_dir = f"{data_path}/data/gaussian_data"
+    output_dir = f"{data_path}/gaussian_output"
 
     # args = get_combined_args(parser)
     # print("Rendering " + args.model_path)

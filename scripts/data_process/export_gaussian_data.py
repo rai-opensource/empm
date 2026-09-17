@@ -7,10 +7,16 @@ import yaml
 import sys
 import shutil
 from pathlib import Path
+from argparse import ArgumentParser
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from data_pipeline.data_process.segment_utils import segment_image
 
-with open("configs/experiments.yaml", "r") as f:
+parser = ArgumentParser(description="Export Gaussian scene data.")
+parser.add_argument("--exp_config", "--exp-config", default="configs/experiments.yaml",
+                    help="Path to the experiments YAML file.")
+args = parser.parse_args()
+
+with open(args.exp_config, "r") as f:
     _config = yaml.safe_load(f)
     DATA_PATH = _config["data_path"]
 

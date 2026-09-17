@@ -37,7 +37,11 @@ export PYTHONNOUSERSITE=1
 bash ./env_setup/env_setup.sh
 ```
 
-### Data Processing
+### Data Preparation
+We provide processed dataset, you can download them [here](https://drive.google.com/drive/folders/1bCdLZuH8y4COb146BcaHR5SWcwcCIQf-?usp=drive_link). after downloading and unzipping, place these data files in in `data_custom/ours/data/different_types`. You can edit `configs/experiments_sample.yaml` to adpat the data files you downloaded.
+
+Alternative, you can process your own RGB-D recordings plus camera intrinsics and calibration with these steps:
+#### Data Processing
 In `configs/experiments.yaml`, set `data_path` and list the experiments to run.
 ```bash
 python3 scripts/data_process/process_data.py
@@ -49,17 +53,34 @@ python3 scripts/data_process/export_video_human_mask.py
 Physics simulation training:
 ```bash
 # physics simulation training with cma-es (optional) and gradient-based optimization
-python3 scripts/train_test/train_empm.py
+python3 scripts/train_test/train_empm.py -exp_config configs/experiments.yaml
 
 # model rollout after params optimization
-python3 scripts/train_test/test_empm.py
+python3 scripts/train_test/test_empm.py -exp_config configs/experiments.yaml
 ```
 
-Gaussian splatting training and rendering:
+Use `--exp_config` to select a different experiment list for training or inference, e.g.
 ```bash
-# Train the Gaussian with the first-frame data
-python3 scripts/gs/gs_train.py
-python3 scripts/gs/gs_render.py
+python3 scripts/train_test/train_empm.py --exp_config configs/experiments_sample.yaml
+python3 scripts/train_test/test_empm.py --exp_config configs/experiments_sample.yaml
+```
+The default is `configs/experiments.yaml`.
+
+We provided trained 3DGS files in.
+
+You can also do the 3DGS training
+You can choose `configs/experiments.yaml` or `configs/experiments_sample.yaml`.
+```bash
+python3 third_party/gaussian_splatting/generate_interp_poses.py --base_path ./data_custom/ours
+cp data_custom/ours/data/different_types/double_lift_sloth_test/shape/matching/final_mesh.glb \
+   data_custom/ours/data/gaussian_data/double_lift_sloth_test/shape_prior.glb
+python3 scripts/data_process/export_gaussian_data.py --exp_config configs/experiments.yaml
+python3 scripts/gs/gs_train.py --exp_config configs/experiments.yaml
+```
+
+to render the 3DGS:
+```bash
+python3 scripts/gs/gs_render.py --exp_config configs/experiments.yaml
 ```
 
 ### Evaluations
@@ -80,6 +101,7 @@ python3 scripts/viz/visualize_render_results.py
 ```
 
 ### Visualization on viser
+NOTE: visualization code is being constantly updated and may not be fully stable.
 ```bash
 python3 scripts/interactive_viser.py
 ```

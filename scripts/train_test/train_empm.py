@@ -45,10 +45,17 @@ def run_train(base_path, case_name, train_frame, output_path, do_cma_optimizatio
 
 
 if __name__ == "__main__":
+    parser = ArgumentParser(description="Train EMPM for the configured experiments.")
+    parser.add_argument(
+        "--exp_config", "--exp-config",
+        default="configs/experiments.yaml",
+        help="Path to the experiments YAML file (default: %(default)s).",
+    )
+    args = parser.parse_args()
+
     seed = 42
     set_all_seeds(seed)
-    exp_config = "configs/experiments.yaml"
-    config = load_config(exp_config)
+    config = load_config(args.exp_config)
     base_path = config["base_path"]
     output_path = config["output_path"]
 

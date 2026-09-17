@@ -292,14 +292,11 @@ if __name__ == "__main__":
     REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
     import yaml
-    with open(os.path.join(REPO_ROOT, "configs/experiments.yaml"), "r") as f:
-        config = yaml.safe_load(f)
-    data_path = os.path.join(REPO_ROOT, config["data_path"])
-    input_dir = f"{data_path}/data/gaussian_data"
-    output_dir = f"{data_path}/gaussian_output"
     exp_name = "init=hybrid_iso=True_ldepth=0.001_lnormal=0.0_laniso_0.0_lseg=1.0"
 
     parser = ArgumentParser(description="Training script parameters")
+    parser.add_argument("--exp_config", "--exp-config", default="configs/experiments.yaml",
+                        help="Path to the experiments YAML file.")
     lp = ModelParams(parser)
     op = OptimizationParams(parser)
     pp = PipelineParams(parser)
@@ -314,8 +311,13 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoint_iterations", nargs="+", type=int, default=[])
     parser.add_argument("--start_checkpoint", type=str, default=None)
     parser.add_argument("--scene", type=str, default=None,
-                        help="Run a single scene by name (default: all from experiments.yaml)")
+                        help="Run a single scene by name (default: all from the selected config)")
     args = parser.parse_args(sys.argv[1:])
+    with open(os.path.join(REPO_ROOT, args.exp_config), "r") as f:
+        config = yaml.safe_load(f)
+    data_path = os.path.join(REPO_ROOT, config["data_path"])
+    input_dir = f"{data_path}/data/gaussian_data"
+    output_dir = f"{data_path}/gaussian_output"
 
     # args.save_iterations.append(args.iterations)
     

@@ -6,6 +6,8 @@ open3d==0.19.0
 trimesh==4.7.4
 rtree==1.4.1
 pyrender==0.1.45
+pyvista==0.49.0
+pynput-1.8.2
 stannum==0.9.1
 termcolor==3.1.0
 fvcore==0.1.5.post20221221
@@ -27,3 +29,4 @@ gsplat==1.4.0
 kornia==0.8.1
 einops==0.8.1
 plyfile==1.1.2
+transformers==4.44.2

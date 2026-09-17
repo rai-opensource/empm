@@ -8,6 +8,7 @@ import numpy as np
 import pickle
 import json
 import time
+from argparse import ArgumentParser
 from scripts.utils import set_all_seeds, load_config
 
 
@@ -52,11 +53,18 @@ def run_inference(base_path, case_name, output_path, optimal_path, skip_cma):
 
 
 if __name__ == "__main__":
+    parser = ArgumentParser(description="Run EMPM inference for the configured experiments.")
+    parser.add_argument(
+        "--exp_config", "--exp-config",
+        default="configs/experiments.yaml",
+        help="Path to the experiments YAML file (default: %(default)s).",
+    )
+    args = parser.parse_args()
+
     seed = 42
     set_all_seeds(seed)
 
-    exp_config = "configs/experiments.yaml"
-    config = load_config(exp_config)
+    config = load_config(args.exp_config)
     base_path = config["base_path"]
     output_path = config["output_path"]
     optimal_path = config["optimal_path"]
