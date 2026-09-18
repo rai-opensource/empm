@@ -39,12 +39,13 @@ from third_party.gaussian_splatting.dynamic_utils import (
     calc_weights_vals_from_indices,
 )
 from dataclasses import dataclass
+from typing import Annotated
 import tyro
 from scripts.utils import set_all_seeds
 
 
-def load_config(case_name):
-    with open("configs/experiments.yaml", "r") as f:
+def load_config(case_name, exp_config="configs/experiments.yaml"):
+    with open(exp_config, "r") as f:
         config = yaml.safe_load(f)
     data_path = config["data_path"]
 
@@ -93,7 +94,7 @@ def get_gs_colors(gaussians):
 @dataclass
 class Config:
     load_gaussians: bool = True
-    seq_config_path: str = "configs/experiments.yaml"
+    seq_config_path: Annotated[str, tyro.conf.arg(aliases=["--exp_config", "--exp-config"])] = "configs/experiments.yaml"
 
 
 if __name__ == "__main__":
@@ -105,7 +106,7 @@ if __name__ == "__main__":
         exp_config = yaml.safe_load(f)
     case_name = exp_config["experiments"][0]["case_name"]
 
-    data_path, base_path = load_config(case_name)
+    data_path, base_path = load_config(case_name, config.seq_config_path)
     dataset_name = data_path.split("/")[-1]
     gaussian_dir = f"{data_path}/gaussian_output"
     base_dir = f"{data_path}/experiments/{case_name}"
@@ -216,7 +217,7 @@ if __name__ == "__main__":
         for i in range(n_ctrl):
             cur_world = np.array(gizmos[i].position, dtype=np.float32)
             cur_sim = to_sim(
-                torch.tensor(cur_world), exp_name).numpy()
+                torch.tensor(cur_world).unsqueeze(0), exp_name).squeeze(0).numpy()
             delta = cur_sim - gizmo_prev_sim[i]
             moved = np.linalg.norm(delta) > 1e-6
 

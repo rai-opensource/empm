@@ -55,7 +55,7 @@ def run_inference(base_path, case_name, output_path, optimal_path, skip_cma):
 if __name__ == "__main__":
     parser = ArgumentParser(description="Run EMPM inference for the configured experiments.")
     parser.add_argument(
-        "--exp_config", "--exp-config",
+        "-exp_config", "--exp_config", "--exp-config",
         default="configs/experiments.yaml",
         help="Path to the experiments YAML file (default: %(default)s).",
     )
@@ -73,6 +73,6 @@ if __name__ == "__main__":
         case_name = exp["case_name"]
         print(f"--case_name: {case_name}")
         start_time = time.time()
-        run_inference(base_path, case_name, output_path, optimal_path, skip_cma=False)
+        run_inference(base_path, case_name, output_path, optimal_path, skip_cma=True)
         elapsed = time.time() - start_time
         print(f"============================== Inference time: {elapsed:.2f}s")

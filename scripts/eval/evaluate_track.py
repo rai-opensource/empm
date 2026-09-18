@@ -7,7 +7,13 @@ import numpy as np
 from scipy.spatial import KDTree
 from argparse import ArgumentParser
 
-with open("configs/experiments.yaml", "r") as f:
+parser = ArgumentParser()
+parser.add_argument("--simulator", type=str, choices=["springmass", "mpm"], default="mpm")
+parser.add_argument("--exp_config", "--exp-config", default="configs/experiments.yaml",
+                    help="Path to the experiments YAML file.")
+args = parser.parse_args()
+
+with open(args.exp_config, "r") as f:
     _config = yaml.safe_load(f)
     DATA_PATH = _config["data_path"]
 
@@ -16,9 +22,6 @@ base_path = f"{DATA_PATH}/data/different_types"
 output_file = f"{DATA_PATH}/results/final_track.csv"
 
 
-parser = ArgumentParser()
-parser.add_argument("--simulator", type=str, choices=["springmass", "mpm"], default="mpm")
-args = parser.parse_args()
 
 
 def evaluate_prediction(start_frame, end_frame, vertices, gt_track_3d, idx, mask):

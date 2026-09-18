@@ -115,7 +115,7 @@ def get_pcd_from_data(path, frame_idx, num_cam, intrinsics, c2ws):
             depth,
             intrinsic=intrinsics[i],
         )
-        if i == 1:  # [TODO]
+        if i == 1:
             points += [0.025, 0.01, 0.0]
         masks = np.logical_and(points[:, :, 2] > 0.2, points[:, :, 2] < 1.5)
         points_flat = points.reshape(-1, 3)

@@ -607,9 +607,8 @@ def readQQTTSceneInfo(
     num_cam = len(intrinsics)
     assert num_cam == len(c2ws), "Number of cameras and camera poses mismatched"
 
-    # TODO:
-    # H, W = 481, 679  # fixed resolution
-    H, W = 480, 640
+    # NOTE: use fixed resolution
+    H, W = 481, 679 
 
     if use_high_res:
         upsample = 4

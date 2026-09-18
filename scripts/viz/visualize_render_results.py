@@ -3,7 +3,14 @@ import numpy as np
 import cv2
 import yaml
 
-with open("configs/experiments.yaml", "r") as f:
+from argparse import ArgumentParser
+
+parser = ArgumentParser()
+parser.add_argument("--exp_config", "--exp-config", default="configs/experiments.yaml",
+                    help="Path to the experiments YAML file.")
+args = parser.parse_args()
+
+with open(args.exp_config, "r") as f:
     _config = yaml.safe_load(f)
     DATA_PATH = _config["data_path"]
 

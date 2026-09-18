@@ -6,9 +6,16 @@ import glob
 import yaml
 import shutil
 from pathlib import Path
+from argparse import ArgumentParser
 from data_pipeline.data_process.segment_utils import segment_video
 
-with open("configs/experiments.yaml", "r") as f:
+parser = ArgumentParser(description="Export human masks for the configured experiments.")
+parser.add_argument("-exp_config", "--exp_config", "--exp-config",
+                    default="configs/experiments.yaml",
+                    help="Path to the experiments YAML file.")
+args = parser.parse_args()
+
+with open(args.exp_config, "r") as f:
     _config = yaml.safe_load(f)
     DATA_PATH = _config["data_path"]
 

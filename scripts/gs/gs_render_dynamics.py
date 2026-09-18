@@ -280,7 +280,11 @@ if __name__ == "__main__":
     REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
     import yaml
-    with open(os.path.join(REPO_ROOT, "configs/experiments.yaml"), "r") as f:
+    config_parser = ArgumentParser(add_help=False)
+    config_parser.add_argument("--exp_config", "--exp-config", default="configs/experiments.yaml",
+                        help="Path to the experiments YAML file.")
+    config_args, _ = config_parser.parse_known_args()
+    with open(os.path.join(REPO_ROOT, config_args.exp_config), "r") as f:
         config = yaml.safe_load(f)
     data_path = os.path.join(REPO_ROOT, config["data_path"])
     exp_name = "init=hybrid_iso=True_ldepth=0.001_lnormal=0.0_laniso_0.0_lseg=1.0"
@@ -292,7 +296,7 @@ if __name__ == "__main__":
     else:
         dyn_output_dir = f"{data_path}/gaussian_output_dynamic"
 
-    parser = ArgumentParser(description="Testing script parameters")
+    parser = ArgumentParser(description="Testing script parameters", parents=[config_parser])
     model = ModelParams(parser, sentinel=True)
     pipeline = PipelineParams(parser)
     parser.add_argument("--iteration", default=-1, type=int)

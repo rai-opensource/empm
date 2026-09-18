@@ -319,22 +319,6 @@ if __name__ == "__main__":
     input_dir = f"{data_path}/data/gaussian_data"
     output_dir = f"{data_path}/gaussian_output"
 
-    # args.save_iterations.append(args.iterations)
-    
-    # print("Optimizing " + args.model_path)
-
-    # # Initialize system state (RNG)
-    # safe_state(args.quiet)
-
-    # # Start GUI server, configure and run training
-    # if not args.disable_viewer:
-    #     network_gui.init(args.ip, args.port)
-    # torch.autograd.set_detect_anomaly(args.detect_anomaly)
-    # training(lp.extract(args), op.extract(args), pp.extract(args), args.test_iterations, args.save_iterations, args.checkpoint_iterations, args.start_checkpoint, args.debug_from)
-
-    # # All done
-    # print("\nTraining complete.")
-
     if args.scene:
         experiments = [{"case_name": args.scene}]
     else:

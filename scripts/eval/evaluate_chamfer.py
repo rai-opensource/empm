@@ -9,17 +9,6 @@ import os
 from pytorch3d.loss import chamfer_distance
 from argparse import ArgumentParser
 
-with open("configs/experiments.yaml", "r") as f:
-    _config = yaml.safe_load(f)
-    DATA_PATH = _config["data_path"]
-
-prediction_dir = f"{DATA_PATH}/experiments"
-base_path = f"{DATA_PATH}/data/different_types"
-output_file = f"{DATA_PATH}/results/final_results.csv"
-
-if not os.path.exists(f"{DATA_PATH}/results"):
-    os.makedirs(f"{DATA_PATH}/results")
-
 def evaluate_prediction(
     start_frame,
     end_frame,
@@ -74,7 +63,20 @@ def evaluate_prediction(
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("--simulator", type=str, choices=["springmass", "mpm"], default="mpm")
+    parser.add_argument("--exp_config", "--exp-config", default="configs/experiments.yaml",
+                        help="Path to the experiments YAML file.")
     args = parser.parse_args()
+
+    with open(args.exp_config, "r") as f:
+        _config = yaml.safe_load(f)
+        DATA_PATH = _config["data_path"]
+
+    prediction_dir = f"{DATA_PATH}/experiments"
+    base_path = f"{DATA_PATH}/data/different_types"
+    output_file = f"{DATA_PATH}/results/final_results.csv"
+
+    if not os.path.exists(f"{DATA_PATH}/results"):
+        os.makedirs(f"{DATA_PATH}/results")
 
     file = open(output_file, mode="w", newline="", encoding="utf-8")
     writer = csv.writer(file)

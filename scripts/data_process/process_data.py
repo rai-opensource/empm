@@ -6,6 +6,7 @@ import glob
 import yaml
 import shutil
 from pathlib import Path
+from argparse import ArgumentParser
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from data_pipeline.data_process.segment_utils import segment_video, segment_image
@@ -91,7 +92,12 @@ def process_data(base_path: str, case_name: str, category: str, shape_prior: boo
 
 
 if __name__ == "__main__":
-    with open("configs/experiments.yaml", "r") as f:
+    parser = ArgumentParser(description="Process data for the configured experiments.")
+    parser.add_argument("-exp_config", "--exp_config", "--exp-config",
+                        default="configs/experiments.yaml",
+                        help="Path to the experiments YAML file.")
+    args = parser.parse_args()
+    with open(args.exp_config, "r") as f:
         config = yaml.safe_load(f)
     base_path = f"{config['data_path']}/data/different_types"
 

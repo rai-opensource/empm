@@ -30,3 +30,4 @@ kornia==0.8.1
 einops==0.8.1
 plyfile==1.1.2
 transformers==4.44.2
+jmespath==1.1.0

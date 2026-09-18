@@ -28,7 +28,13 @@ def compute_iou(mask1, mask2):
 
 if __name__ == "__main__":
     import yaml
-    with open("configs/experiments.yaml", "r") as f:
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument("--exp_config", "--exp-config", default="configs/experiments.yaml",
+                        help="Path to the experiments YAML file.")
+    args = parser.parse_args()
+    with open(args.exp_config, "r") as f:
         _config = yaml.safe_load(f)
     DATA_PATH = _config["data_path"]
     render_path = f"{DATA_PATH}/data/render_eval_data"

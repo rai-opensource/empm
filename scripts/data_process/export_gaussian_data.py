@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 from data_pipeline.data_process.segment_utils import segment_image
 
 parser = ArgumentParser(description="Export Gaussian scene data.")
-parser.add_argument("--exp_config", "--exp-config", default="configs/experiments.yaml",
+parser.add_argument("-exp_config", "--exp_config", "--exp-config", default="configs/experiments.yaml",
                     help="Path to the experiments YAML file.")
 args = parser.parse_args()
 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
             # prepare the human mask
             segment_image(img_path=f"{output_path}/{case_name}/{i}.png", 
-                        text_prompt="human",
+                        text_prompt="person",
                         output_path=f"{output_path}/{case_name}/mask_human_{i}.png")
 
     # Prepare the intrinsic and extrinsic parameters
