@@ -3,4 +3,3 @@ data_path: "./data_custom/ours"
 experiments:
   - case_name: double_lift_sloth_test
     category: sloth
-    shape_prior: true
